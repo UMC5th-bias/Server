@@ -79,14 +79,15 @@ public class PilgrimageCommandService {
         ZoneId serverZoneId = ZoneId.of("Asia/Seoul");
         ZonedDateTime nowInServerTimeZone = ZonedDateTime.now(serverZoneId);
 
-//        log.info("now="+nowInServerTimeZone);
-//        if (!visitedPilgrimages.isEmpty()) {
-//            log.info("pilgrimage="+visitedPilgrimages.get(0).getPilgrimage().getCreatedAt().atZone(serverZoneId));
-//        }
+        log.info("now="+LocalDateTime.now());
+        if (!visitedPilgrimages.isEmpty()) {
+            log.info("pilgrimage="+visitedPilgrimages.get(0).getPilgrimage().getCreatedAt().atZone(serverZoneId));
+            log.info("application pilgrimage="+visitedPilgrimages.get(0).getPilgrimage().getCreatedAt());
+        }
 
         if (visitedPilgrimages.isEmpty()
                 || (!visitedPilgrimages.isEmpty()
-                && visitedPilgrimages.get(0).getPilgrimage().getCreatedAt().atZone(serverZoneId).plusHours(24L).isBefore(nowInServerTimeZone))) {
+                && visitedPilgrimages.get(0).getPilgrimage().getCreatedAt().plusHours(24L).isBefore(LocalDateTime.now()))) {
             // 현재 좌표가 성지순례 장소 좌표 기준 +-0.00135 이내인지 확인
             if (checkCoordinate(form, pilgrimage)){
                 throw new RestApiException(ErrorCode.PILGRIMAGE_CAN_NOT_CERTIFIED);
