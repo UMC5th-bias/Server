@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration name = "Local" staus = "debug" moniterInterval="30">
+    <Properties>
+        <Property name="LOG_LEVEL_PATTERN">{%5p}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=green bold, DEBUG=blue bold, TRACE=blue}</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console_Appender" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="%style{%d{MM-dd HH:mm:ss}}{magenta} %highlight${LOG_LEVEL_PATTERN} %style{[%c{1.1.1.*}]}{cyan} %m%n" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level = "info">
+            <AppenderRef ref = "Console_Appender"/>
+        </Root>
+        <Logger name ="moemoe_logging" level="debug" additivity="false">
+            <AppenderRef ref="Console_Appender"/>
+        </Logger>
+    </Loggers>
+</Configuration>

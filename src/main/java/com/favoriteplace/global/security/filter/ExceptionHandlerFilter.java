@@ -11,11 +11,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
+@Slf4j
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
@@ -28,9 +31,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         }catch (ExpiredJwtException e){
             //토큰의 유효기간 만료
+            log.info("토큰 유효기간 만료");
             setErrorResponse(response, ErrorCode.TOKEN_NOT_VALID);
         }catch (JwtException | IllegalArgumentException e){
             //유효하지 않은 토큰
+            log.info("유효하지 않은 토큰");
             setErrorResponse(response, ErrorCode.TOKEN_NOT_VALID);
         } catch (RestApiException e) {
             setErrorResponse(response, e.getErrorCode());

@@ -32,6 +32,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -39,6 +40,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
 
 	//email
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -83,4 +85,11 @@ tasks.named('bootBuildImage') {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+configurations { //프로젝트의 모든 의존성 구성을 대상으로 설정 적용
+	all { // 모든 구성에서 다음 설정을 적용
+		// 그룹이 org.springframework.boot이고 모듈이 spring-boot-starter-looging인 의존성을 제외
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
 }

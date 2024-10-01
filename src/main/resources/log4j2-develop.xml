@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="Develop" status="debug">
+    <Properties>
+        <Property name="LOG_DIR">/home/ubuntu/app/logs</Property>
+        <Property name= "LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5p %processId --- [%t] %c{1.} : %msg%n</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="RollingFile_Appender" fileName="${LOG_DIR}/logfile.log" filePattern="${log-dir}/logfile-%d{yyyy-MM-dd}.%i.txt">
+            <PatternLayout pattern = "${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${LOG_DIR}" maxDepth="1">
+                    <IfLastModified age="P7D"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <ImmediateFlush>true</ImmediateFlush>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="RollingFile_Appender"/>
+        </Root>
+        <Logger name="moemoe_logging" level="debug" additivity="false">
+            <AppenderRef ref="RollingFile_Appender"/>
+        </Logger>
+    </Loggers>
+</Configuration>
